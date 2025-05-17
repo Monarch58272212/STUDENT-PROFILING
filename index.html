@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student profiling login form</title>
+    <link rel="stylesheet" href="LOGIN.css" />
+    <meta
+      http-equiv="Cache-Control"
+      content="no-store, no-cache, must-revalidate"
+    />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+  </head>
+
+  <style>
+    body {
+      background: white;
+      width: 100vw;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      justify-items: center;
+      overflow: hidden;
+      background-size: 100% 100%;
+      background-position: 0px 0px;
+      background-image: conic-gradient(
+        from 55deg at 43% 50%,
+        rgb(222, 250, 14) 0%,
+        rgb(11, 88, 41) 92%
+      );
+    }
+
+    form {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      justify-items: center;
+      flex-direction: column;
+      -webkit-backdrop-filter: blur(30px);
+      backdrop-filter: blur(30px);
+      width: 50%;
+      height: 350px;
+      position: relative;
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    }
+
+    p {
+      color: black;
+      font-family: "Poppins", sans-serif;
+    }
+
+    img {
+      position: absolute;
+      width: 160px;
+      top: -110px;
+      animation: logo;
+      animation-duration: 3s;
+      animation-iteration-count: infinite;
+    }
+
+    @keyframes logo {
+      100% {
+        transform: rotateY(360deg);
+      }
+    }
+
+    form input {
+      width: 90%;
+      height: 30px;
+      margin: 1%;
+      border: transparent;
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+      text-align: center;
+      border-radius: 3px;
+      background-color: lightblue;
+      color: black;
+      transition: all 0.6s;
+      padding: 5px;
+    }
+
+    form input:hover,
+    form button:hover,
+    form a:hover {
+      scale: 1.1;
+    }
+
+    form button {
+      width: 50%;
+      padding: 3px;
+      margin-top: 5px;
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+      background-color: green;
+      border: none;
+      color: beige;
+      font-size: large;
+      font-family: "Poppins", sans-serif;
+      transition: all 0.6s;
+      padding: 8px;
+    }
+
+    form div {
+      display: flex;
+      flex-direction: row;
+      width: 70%;
+      height: 1px;
+      justify-content: center;
+      align-items: center;
+      justify-items: center;
+      gap: 5px;
+      margin: 10px;
+    }
+
+    hr {
+      width: 100%;
+    }
+
+    form a {
+      transition: all 0.6s;
+    }
+
+    h3 {
+      color: black;
+      font-size: xx-large;
+      font-family: "Poppins", sans-serif;
+      padding: 0;
+    }
+
+    @media (max-width: 768px) {
+      form p {
+        font-size: 8px;
+      }
+
+      form {
+        width: 90%;
+      }
+    }
+  </style>
+
+  <body>
+    <form action="register-form" autocomplete="off">
+      <img src="image/usmkcclogo-removebg-preview.png" alt="Logo" />
+      <h3>Login Form</h3>
+      <input
+        type="email"
+        id="email"
+        placeholder="Email"
+        autocomplete="username"
+        required
+      />
+      <input
+        type="password"
+        id="password"
+        placeholder="Password"
+        autocomplete="current-password"
+        required
+      />
+      <button id="submit" type="submit">Login</button>
+    </form>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+      import {
+        getAuth,
+        signInWithEmailAndPassword,
+      } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyAFFHS43epBlwsF4jHnGshOphEeha7Ryac",
+        authDomain: "student-profiling-43f5c.firebaseapp.com",
+        projectId: "student-profiling-43f5c",
+        storageBucket: "student-profiling-43f5c.firebasestorage.app",
+        messagingSenderId: "1091087193972",
+        appId: "1:1091087193972:web:6dbc004ad1cbeb36383e21",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const submit = document.getElementById("submit");
+
+      submit.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        if (email === "" || password === "") {
+          alert("Please fill out all required fields");
+          return;
+        }
+
+        signInWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+            const user = userCredential.user;
+            alert("Login Account Successful...");
+            document.getElementById("email").value = "";
+            document.getElementById("password").value = "";
+
+            setTimeout(function () {
+              window.location.href = "../studentOption/studentOption.html";
+            }, 500);
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            alert(errorMessage);
+          });
+      });
+      window.addEventListener("load", function () {
+        document.querySelector("form").reset();
+      });
+    </script>
+  </body>
+</html>
